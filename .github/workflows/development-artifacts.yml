@@ -1,0 +1,40 @@
+name: Development artifacts workflow
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  test-contract:
+    runs-on: ubuntu-latest
+    services:
+      ganache:
+        image: trufflesuite/ganache:latest
+        ports:
+          - 7545:8545
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Truffle
+        run: npm install truffle -g
+
+      - name: Run Truffle Test with CI=true
+        run: CI=true truffle test
+
+  create-dev-release:
+    runs-on: ubuntu-latest
+    needs: [ test-contract ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
