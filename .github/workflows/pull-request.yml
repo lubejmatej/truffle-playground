@@ -2,7 +2,7 @@ name: Pull request workflow
 on: [ pull_request ]
 
 jobs:
-  pr:
+  contract:
     runs-on: ubuntu-latest
     services:
       ganache:
@@ -26,3 +26,33 @@ jobs:
 
       - name: Run Truffle Test with CI=true
         run: CI=true truffle test
+
+  client:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Install client dependencies
+        run: |
+          cd client
+          npm ci
+
+      - name: Test
+        run: |
+          cd client
+          npm run test

@@ -1,0 +1,31 @@
+.UserContactCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid var(--border-color);
+  padding: 0.75rem 0.5rem 0.75rem 0.75rem;
+}
+
+.UserContactCard--start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.UserContactCard--end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.UserContactCard--name {
+  color: var(--primary);
+}
+
+.UserContactCard--age {
+  display: flex;
+  align-self: flex-end;
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--light);
+}
