@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 
 import UserContactList from '../../components/UserContactList/UserContactList';
 import { UserContactsContext } from '../../providers/UserContactsProvider';
@@ -12,7 +11,7 @@ const Home: React.FC = () => {
   } = React.useContext(Web3Context);
   const { loadUserContacts } = React.useContext(UserContactsContext);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (initialized) {
       loadUserContacts();
     }

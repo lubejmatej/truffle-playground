@@ -7,7 +7,7 @@
 
 .App h2 {
   text-align: center;
-  color: var(--danger);
+  color: var(--warning);
 }
 
 .App--container {

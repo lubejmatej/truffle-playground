@@ -67,32 +67,35 @@ const Web3ContextProvider: React.FC = ({ children }) => {
     ...web3ProviderInitialState,
   });
 
-  const loadWeb3 = React.useCallback(async () => {
-    const web3 = await Web3Utils.getWeb3();
-    const accounts = await web3.eth.getAccounts();
-    const networkId = await web3.eth.net.getId();
-    const deployedNetwork = (
-      UserContactsContract.networks as { [index: number]: { address?: string } }
-    )[networkId];
+  const loadWeb3: Web3ProviderContext['loadWeb3'] =
+    React.useCallback(async () => {
+      const web3 = await Web3Utils.getWeb3();
+      const accounts = await web3.eth.getAccounts();
+      const networkId = await web3.eth.net.getId();
+      const deployedNetwork = (
+        UserContactsContract.networks as {
+          [index: number]: { address?: string };
+        }
+      )[networkId];
 
-    if (!deployedNetwork?.address) {
-      console.error('Contract not deployed!');
-      return;
-    }
+      if (!deployedNetwork?.address) {
+        console.error('Contract not deployed!');
+        return;
+      }
 
-    const contract = new web3.eth.Contract(
-      UserContactsContract.abi as AbiItem[],
-      deployedNetwork.address
-    ) as Contract;
+      const contract = new web3.eth.Contract(
+        UserContactsContract.abi as AbiItem[],
+        deployedNetwork.address
+      ) as Contract;
 
-    setState((state) => ({
-      ...state,
-      web3,
-      accounts,
-      contract,
-      initialized: true,
-    }));
-  }, [setState]);
+      setState((state) => ({
+        ...state,
+        web3,
+        accounts,
+        contract,
+        initialized: true,
+      }));
+    }, [setState]);
 
   const providerState: Web3ProviderContext = React.useMemo(
     () => ({

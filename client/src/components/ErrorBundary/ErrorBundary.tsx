@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import './ErrorBundary.css';
+
 class ErrorBoundary extends React.Component<
   {},
   { hasError: false; error: Error | null }
@@ -23,9 +25,12 @@ class ErrorBoundary extends React.Component<
 
   render() {
     const { error, hasError } = this.state;
-
     if (hasError) {
-      return <h1>Something went wrong: {JSON.stringify(error)}</h1>;
+      return (
+        <h2 className="ErrorBundary">
+          Something went wrong: "{error?.message ?? error}"
+        </h2>
+      );
     }
 
     return this.props.children;

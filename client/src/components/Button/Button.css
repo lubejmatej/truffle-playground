@@ -14,13 +14,24 @@
   font-size: 1rem;
   box-shadow: none;
   border: 0;
-  color: var(--primary);
 }
 
 .Button:not(:disabled) {
   cursor: pointer;
 }
 
-.Button:hover {
+.Button--primary {
+  color: var(--primary);
+}
+
+.Button--secondary {
+  color: var(--warning);
+}
+
+.Button--primary:hover {
+  color: var(--light);
+}
+
+.Button--secondary:hover {
   color: var(--light);
 }

@@ -6,10 +6,18 @@ const Button: React.FC<
   React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
-  >
-> = ({ children, ...restProps }) => {
+  > & {
+    variant?: 'primary' | 'secondary';
+  }
+> = ({ children, variant, ...restProps }) => {
+  const btnVariant = variant ?? 'primary';
+
   return (
-    <button className="Button" type="button" {...restProps}>
+    <button
+      className={`Button Button--${btnVariant}`}
+      type="button"
+      {...restProps}
+    >
       {children}
     </button>
   );
