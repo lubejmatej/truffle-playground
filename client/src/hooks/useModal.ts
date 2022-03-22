@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { JSXElementConstructor } from 'react';
 
 import { ModalContext, ModalPropsBase } from '../providers/ModalProvider';
 import { Utils } from '../utils/utils';
@@ -10,8 +9,8 @@ type useModalReturnType<P, R> = [
 ];
 
 const useModal = <P = ModalPropsBase, R = any>(
-  component: JSXElementConstructor<P & ModalPropsBase>,
-  data?: P,
+  component: React.JSXElementConstructor<P & ModalPropsBase>,
+  data?: Partial<P>,
   onClose?: (returnValue?: R) => void
 ): useModalReturnType<P, R> => {
   // Insure modalKey won't change in subsequent renders

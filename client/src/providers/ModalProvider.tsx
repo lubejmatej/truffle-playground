@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { JSXElementConstructor } from 'react';
 
 export interface ModalPropsBase<R = {}> {
   isOpen: boolean;
@@ -9,7 +8,7 @@ export interface ModalPropsBase<R = {}> {
 interface ModalProviderState {
   [modalKey: string]: {
     isOpen: boolean;
-    component: JSXElementConstructor<ModalPropsBase>;
+    component: React.JSXElementConstructor<ModalPropsBase>;
     props: ModalPropsBase;
     onClose?: (returnValue?: any) => void;
   };
@@ -19,7 +18,7 @@ interface ModalProviderContext {
   readonly state: ModalProviderState;
   showModal: (
     modalKey: string,
-    component: JSXElementConstructor<any>,
+    component: React.JSXElementConstructor<any>,
     modalData: any,
     closeModal?: (returnValue?: any) => void
   ) => void;
