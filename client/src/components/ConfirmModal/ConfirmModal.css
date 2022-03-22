@@ -1,0 +1,8 @@
+.ConfirmModal--header {
+  padding: 0.5rem 0.75rem;
+}
+
+.ConfirmModal--footer {
+  display: flex;
+  justify-content: space-between;
+}

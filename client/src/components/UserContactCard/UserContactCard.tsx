@@ -1,19 +1,47 @@
 import * as React from 'react';
-import { useContext } from 'react';
 
+import useModal from '../../hooks/use-modal';
 import {
   UserContact,
   UserContactsContext,
 } from '../../providers/UserContactsProvider';
 import Button from '../Button/Button';
+import ConfirmModal, {
+  ConfirmModalInput,
+  ConfirmModalOutput,
+} from '../ConfirmModal/ConfirmModal';
 import './UserContactCard.css';
 
 const UserContactCard: React.FC<{ userContact: UserContact }> = ({
   userContact,
 }) => {
-  const { createUserContact, updateUserContact, deleteUserContact } =
-    useContext(UserContactsContext);
   const { id, firstName, lastName, age } = userContact;
+
+  const { createUserContact, updateUserContact, deleteUserContact } =
+    React.useContext(UserContactsContext);
+
+  const confirmModalTitle = React.useMemo(
+    () => (
+      <>
+        Are you sure you want to delete this contact {firstName} {lastName}?
+        <br />
+        This action cannot be undone!
+      </>
+    ),
+    [firstName, lastName]
+  );
+  const [showModal] = useModal<ConfirmModalInput, ConfirmModalOutput>(
+    ConfirmModal,
+    {
+      title: confirmModalTitle,
+    },
+    (modalResponse) => {
+      const { confirm } = modalResponse!;
+      if (confirm) {
+        deleteUserContact(id);
+      }
+    }
+  );
 
   return (
     <div className="UserContactCard">
@@ -38,7 +66,7 @@ const UserContactCard: React.FC<{ userContact: UserContact }> = ({
           >
             Update
           </Button>
-          <Button onClick={() => deleteUserContact(id)}>Delete</Button>
+          <Button onClick={() => showModal()}>Delete</Button>
         </div>
       </div>
     </div>

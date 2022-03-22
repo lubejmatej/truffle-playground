@@ -108,7 +108,7 @@ const ModalContextProvider: React.FC = ({ children }) => {
         })}
       </>
     );
-  }, [state]);
+  }, [state, hideModal]);
 
   return (
     <ModalContext.Provider value={providerState}>

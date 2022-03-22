@@ -14,14 +14,14 @@ const useModal = <P = ModalPropsBase, R = any>(
   data?: P,
   onClose?: (returnValue?: R) => void
 ): useModalReturnType<P, R> => {
-  // Unsure modalKey won't change in subsequent renders
+  // Insure modalKey won't change in subsequent renders
   const modalKey = React.useMemo(() => Utils.uniqueId('modal-'), []);
   const { showModal, hideModal } = React.useContext(ModalContext);
 
   const _showModal = React.useCallback(
     (modalProps: Partial<P> = {}) =>
       showModal(modalKey, component, { ...data, ...modalProps }, onClose),
-    [data, showModal]
+    [showModal, modalKey, component, data, onClose]
   );
   const _hideModal = React.useCallback(
     () => hideModal(modalKey, onClose),
