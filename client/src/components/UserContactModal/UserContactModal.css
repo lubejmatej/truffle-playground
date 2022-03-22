@@ -1,0 +1,8 @@
+.UserContactModal--header {
+  padding-bottom: 0.75rem;
+}
+
+.UserContactModal--footer {
+  display: flex;
+  justify-content: space-between;
+}

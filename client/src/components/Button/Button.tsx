@@ -8,13 +8,13 @@ const Button: React.FC<
     HTMLButtonElement
   > & {
     variant?: 'primary' | 'secondary';
+    outline?: boolean;
   }
-> = ({ children, variant, ...restProps }) => {
-  const btnVariant = variant ?? 'primary';
-
+> = ({ children, variant = 'primary', outline = false, ...restProps }) => {
+  const outlineClass = outline ? 'Button--outline' : '';
   return (
     <button
-      className={`Button Button--${btnVariant}`}
+      className={`Button Button--${variant} ${outlineClass}`}
       type="button"
       {...restProps}
     >

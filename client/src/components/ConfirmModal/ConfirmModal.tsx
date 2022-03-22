@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import { ModalPropsBase } from '../../providers/ModalProvider';
 import Button from '../Button/Button';
@@ -13,10 +13,9 @@ export interface ConfirmModalOutput {
   confirm: boolean;
 }
 
-const ConfirmModal: React.FC<ConfirmModalInput & ModalPropsBase> = ({
-  title,
-  onClose,
-}) => {
+const ConfirmModal: React.FC<
+  ConfirmModalInput & ModalPropsBase<ConfirmModalOutput>
+> = ({ title, onClose }) => {
   return (
     <Modal maxWidth={650}>
       <div className="ConfirmModal--header">{title}</div>
