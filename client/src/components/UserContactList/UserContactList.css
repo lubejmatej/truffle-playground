@@ -2,6 +2,12 @@
   width: 100%;
 }
 
+.UserContactList--header {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 0.75rem;
+}
+
 .UserContactList .UserContactCard:not(:last-child) {
   margin-bottom: 1rem;
 }

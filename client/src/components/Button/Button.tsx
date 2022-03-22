@@ -6,10 +6,18 @@ const Button: React.FC<
   React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
-  >
-> = ({ children, ...restProps }) => {
+  > & {
+    variant?: 'primary' | 'secondary';
+    outline?: boolean;
+  }
+> = ({ children, variant = 'primary', outline = false, ...restProps }) => {
+  const outlineClass = outline ? 'Button--outline' : '';
   return (
-    <button className="Button" type="button" {...restProps}>
+    <button
+      className={`Button Button--${variant} ${outlineClass}`}
+      type="button"
+      {...restProps}
+    >
       {children}
     </button>
   );

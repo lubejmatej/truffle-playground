@@ -1,4 +1,6 @@
 .Button {
+  --button-color: var(--dark);
+
   border-radius: 0;
   outline: none;
   cursor: pointer;
@@ -14,13 +16,27 @@
   font-size: 1rem;
   box-shadow: none;
   border: 0;
-  color: var(--primary);
+
+  color: var(--button-color);
 }
 
 .Button:not(:disabled) {
   cursor: pointer;
 }
 
-.Button:hover {
-  color: var(--light);
+.Button--outline {
+  border: 1px solid currentColor;
+}
+
+.Button--primary {
+  --button-color: var(--primary);
+}
+
+.Button--secondary {
+  --button-color: var(--warning);
+}
+
+.Button--primary:hover,
+.Button--secondary:hover {
+  --button-color: var(--light);
 }

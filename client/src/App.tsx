@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 
 import './App.css';
 import Home from './pages/Home/Home';
@@ -12,7 +11,7 @@ const App: React.FC = () => {
     loadWeb3,
   } = React.useContext(Web3Context);
 
-  useEffect(() => {
+  React.useEffect(() => {
     loadWeb3();
   }, [loadWeb3]);
 
