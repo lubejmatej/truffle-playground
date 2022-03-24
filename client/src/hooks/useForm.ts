@@ -1,7 +1,11 @@
 import * as React from 'react';
 
+export type FormDefaults<T = any> = {
+  [name in keyof T]: '' | T[name];
+};
+
 const useForm = <T = {}>(
-  initialFormValue: T = {} as T,
+  initialFormValue: FormDefaults<T> = {} as FormDefaults<T>,
   onSubmitCb?: (inputs: T) => void
 ) => {
   const [inputs, setInputs] = React.useState<T>({ ...initialFormValue } as T);
@@ -42,11 +46,11 @@ const useForm = <T = {}>(
   );
 
   const clearInputValues = React.useCallback(() => {
-    const clearedInputsFields = (inputs) =>
+    const clearedInputsFields = (inputs: FormDefaults<T>) =>
       Object.keys(inputs).reduce(
         (acc, i) => ({
           ...acc,
-          [i]: null,
+          [i]: '',
         }),
         {} as T
       );
