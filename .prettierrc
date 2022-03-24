@@ -4,7 +4,8 @@
   "importOrder": [
     "^[@]",
     "^[a-zA-Z]",
-    "^[./]"
+    "^(?!.*[.]css).*$",
+    ".css$"
   ],
   "importOrderSeparation": true
 }

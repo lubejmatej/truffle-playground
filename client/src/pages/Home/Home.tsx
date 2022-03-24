@@ -3,6 +3,7 @@ import * as React from 'react';
 import UserContactList from '../../components/UserContactList/UserContactList';
 import { UserContactsContext } from '../../providers/UserContactsProvider';
 import { Web3Context } from '../../providers/Web3Provider';
+
 import './Home.css';
 
 const Home: React.FC = () => {

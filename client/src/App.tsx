@@ -1,9 +1,10 @@
 import * as React from 'react';
 
-import './App.css';
 import Home from './pages/Home/Home';
 import UserContactsContextProvider from './providers/UserContactsProvider';
 import { Web3Context } from './providers/Web3Provider';
+
+import './App.css';
 
 const App: React.FC = () => {
   const {

@@ -5,6 +5,7 @@ import { ModalPropsBase } from '../../providers/ModalProvider';
 import { UserContact } from '../../providers/UserContactsProvider';
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
+
 import './UserContactModal.css';
 
 export interface UserContactModalInput {

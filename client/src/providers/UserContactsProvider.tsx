@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Utils } from '../utils/utils';
+import Utils from '../utils/utils';
 import { Web3Context } from './Web3Provider';
 
 export interface UserContact {

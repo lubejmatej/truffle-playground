@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { ModalContext, ModalPropsBase } from '../providers/ModalProvider';
-import { Utils } from '../utils/utils';
+import Utils from '../utils/utils';
 
 type useModalReturnType<P, R> = [
   (modalProps?: Partial<P>) => void,

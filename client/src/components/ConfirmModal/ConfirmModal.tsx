@@ -3,6 +3,7 @@ import * as React from 'react';
 import { ModalPropsBase } from '../../providers/ModalProvider';
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
+
 import './ConfirmModal.css';
 
 export interface ConfirmModalInput {
