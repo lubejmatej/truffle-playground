@@ -96,10 +96,10 @@ jobs:
           cd client
           npm ci
 
-      - name: Build client
+      - name: Build client for gh pages
         run: |
           cd client
-          npm run build
+          npm run build:gh:pages
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
