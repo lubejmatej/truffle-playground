@@ -1,11 +1,11 @@
-# truffle-playground-client
+# Truffle Playground Client
 
-## How to run on localhost
+## Development Environment Setup
 
-First install dependencies:
+First install dependencies(if you haven't before):
 
 ```sh
-npm install
+npm ci
 ```
 
 To run in dev mode mode:
@@ -16,6 +16,8 @@ npm start
 
 Then go to http://localhost:8080
 
+---
+
 To create a production build:
 
 ```sh
@@ -24,10 +26,16 @@ npm run build
 
 ## Testing
 
-To run unit tests:
+To run unit tests via Jest:
 
 ```sh
 npm test
+```
+
+To run e2e tests via Cypress(you need to have dev server running):
+
+```sh
+npm run test:e2e:open
 ```
 
 ## Known issues
