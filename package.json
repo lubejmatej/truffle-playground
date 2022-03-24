@@ -4,6 +4,7 @@
   "description": "",
   "author": "Matej Lubej",
   "license": "MIT",
+  "homepage": "https://lubejmatej.github.io/truffle-playground/",
   "scripts": {
     "format-staged": "pretty-quick --staged --pattern \"**/*.*(ts|tsx|css)\"",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./client/src",

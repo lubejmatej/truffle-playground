@@ -7,7 +7,8 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "build": "snowpack build",
+    "build": "snowpack build --baseUrl=/",
+    "build:gh:pages": "snowpack build --baseUrl=/truffle-playground/",
     "clean": "rm dist/bundle.js",
     "start": "snowpack dev",
     "start:ci": "npm run start & npx wait-on http://localhost:8080",
