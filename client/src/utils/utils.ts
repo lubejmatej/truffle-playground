@@ -1,6 +1,6 @@
 let uniqueIdIdentifier = 0;
 
-export abstract class Utils {
+abstract class Utils {
   static uniqueId(prefix = '') {
     uniqueIdIdentifier += 1;
     return prefix.toString() + uniqueIdIdentifier;
@@ -15,3 +15,5 @@ export abstract class Utils {
     return Utils.wait(1000);
   }
 }
+
+export default Utils;

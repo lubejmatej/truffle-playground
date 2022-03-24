@@ -12,6 +12,7 @@ import UserContactModal, {
   UserContactModalOutput,
   UserContactType,
 } from '../UserContactModal/UserContactModal';
+
 import './UserContactList.css';
 
 const UserContactList: React.FC = () => {

@@ -15,6 +15,7 @@ import UserContactModal, {
   UserContactModalOutput,
   UserContactType,
 } from '../UserContactModal/UserContactModal';
+
 import './UserContactCard.css';
 
 const UserContactCard: React.FC<{ userContact: UserContact }> = ({
