@@ -1,8 +1,10 @@
 import * as React from 'react';
 
-import useForm from '../../hooks/useForm';
+import useForm, { FormDefaults } from '../../hooks/useForm';
 import { ModalPropsBase } from '../../providers/ModalProvider';
 import { UserContact } from '../../providers/UserContactsProvider';
+import Utils from '../../utils/utils';
+import ValidatorUtils from '../../utils/validator.utils';
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
 
@@ -25,17 +27,22 @@ export enum UserContactType {
   UPDATE,
 }
 
-const userContactInitialValue: UserContact = {
-  id: null,
+const userContactInitialValue: FormDefaults<UserContact> = {
+  id: '',
   firstName: '',
   lastName: '',
   telNumber: '',
   email: '',
-  age: null,
+  age: '',
   avatarUrl: '',
   websiteUrl: '',
   tags: '',
 };
+
+type InputPropsType = React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+>;
 
 const UserContactModal: React.FC<
   UserContactModalInput & ModalPropsBase<UserContactModalOutput>
@@ -64,42 +71,65 @@ const UserContactModal: React.FC<
     onSubmit
   );
 
-  const renderInput = React.useCallback(
-    (name: keyof UserContact, disabled = false) => (
-      <input
-        type="text"
-        placeholder={name}
-        name={name}
-        value={inputs[name]}
-        onChange={handleInputChange}
-        disabled={disabled}
-      />
+  const renderFormGroup = React.useCallback(
+    ({
+      name,
+      disabled,
+      type,
+      ...rest
+    }: {
+      name: keyof UserContact;
+      disabled?: boolean;
+    } & Partial<InputPropsType>) => (
+      <div className="form-group">
+        <label htmlFor={name}>{Utils.camelCaseToString(name)}</label>
+        <input
+          id={name}
+          type={type ?? 'text'}
+          name={name}
+          value={inputs[name]}
+          onChange={handleInputChange}
+          disabled={disabled ?? false}
+          required={true}
+          {...rest}
+        />
+      </div>
     ),
     [inputs, handleInputChange]
   );
 
   return (
     <Modal maxWidth={600}>
-      <div className="UserContactModal--header">{title}</div>
-      <div className="UserContactModal--content">
-        <form onSubmit={handleSubmit}>
-          {isUpdateMode && renderInput('id', true)}
-          {renderInput('firstName')}
-          {renderInput('lastName')}
-          {renderInput('telNumber')}
-          {renderInput('email')}
-          {renderInput('age')}
-          {renderInput('avatarUrl')}
-          {renderInput('websiteUrl')}
-          {renderInput('tags')}
-        </form>
-      </div>
-      <div className="UserContactModal--footer">
-        <Button onClick={() => onClose({ confirm: false })}>Cancel</Button>
-        <Button variant="secondary" onClick={handleSubmit}>
-          Save
-        </Button>
-      </div>
+      <form onSubmit={handleSubmit}>
+        <div className="UserContactModal--header">{title}</div>
+        <div className="UserContactModal--content">
+          {isUpdateMode && renderFormGroup({ name: 'id', disabled: true })}
+          {renderFormGroup({ name: 'firstName' })}
+          {renderFormGroup({ name: 'lastName' })}
+          {renderFormGroup({
+            name: 'telNumber',
+            type: 'tel',
+            pattern: ValidatorUtils.TelNumberReg(),
+          })}
+          {renderFormGroup({ name: 'email', type: 'email' })}
+          {renderFormGroup({ name: 'age', type: 'number', min: 0 })}
+          {renderFormGroup({
+            name: 'avatarUrl',
+            pattern: ValidatorUtils.UrlReg(),
+          })}
+          {renderFormGroup({
+            name: 'websiteUrl',
+            pattern: ValidatorUtils.UrlReg(),
+          })}
+          {renderFormGroup({ name: 'tags' })}
+        </div>
+        <div className="UserContactModal--footer">
+          <Button onClick={() => onClose({ confirm: false })}>Cancel</Button>
+          <Button type="submit" variant="secondary">
+            Save
+          </Button>
+        </div>
+      </form>
     </Modal>
   );
 };
