@@ -9,11 +9,13 @@ import './styles.css';
 
 const App = React.lazy(() => import('./App'));
 
+const SuspenseComponent: React.FC = () => <>...</>;
+
 ReactDOM.render(
   <ErrorBoundary>
     <ModalContextProvider>
       <Web3ContextProvider>
-        <React.Suspense fallback={() => <>...</>}>
+        <React.Suspense fallback={<SuspenseComponent />}>
           <App />
         </React.Suspense>
       </Web3ContextProvider>
