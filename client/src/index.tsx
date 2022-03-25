@@ -9,7 +9,6 @@ import './styles.css';
 
 const App = React.lazy(() => import('./App'));
 
-var mountNode = document.getElementById('app');
 ReactDOM.render(
   <ErrorBoundary>
     <ModalContextProvider>
@@ -20,5 +19,5 @@ ReactDOM.render(
       </Web3ContextProvider>
     </ModalContextProvider>
   </ErrorBoundary>,
-  mountNode
+  document.getElementById('app')
 );
