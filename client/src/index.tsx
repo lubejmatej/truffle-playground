@@ -9,16 +9,17 @@ import './styles.css';
 
 const App = React.lazy(() => import('./App'));
 
-var mountNode = document.getElementById('app');
+const SuspenseComponent: React.FC = () => <>...</>;
+
 ReactDOM.render(
   <ErrorBoundary>
     <ModalContextProvider>
       <Web3ContextProvider>
-        <React.Suspense fallback={() => <>...</>}>
+        <React.Suspense fallback={<SuspenseComponent />}>
           <App />
         </React.Suspense>
       </Web3ContextProvider>
     </ModalContextProvider>
   </ErrorBoundary>,
-  mountNode
+  document.getElementById('app')
 );
