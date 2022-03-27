@@ -2,7 +2,7 @@ name: Pull request workflow
 on: [ pull_request ]
 
 jobs:
-  contract:
+  pr:
     runs-on: ubuntu-latest
     services:
       ganache:
@@ -22,24 +22,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install Truffle
-        run: npm install truffle -g
+        run: npm run install:truffle:global
 
       - name: Truffle Test
         run: CI=true truffle test
-
-  client:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [ 16.x ]
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
 
       - name: Install root dependencies
         run: npm ci
@@ -68,6 +54,9 @@ jobs:
         run: |
           cd client
           npm run test
+
+      - name: Truffle deploy contract
+        run: truffle deploy
 
       - name: Should build successfully
         run: |

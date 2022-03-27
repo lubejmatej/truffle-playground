@@ -16,3 +16,6 @@ ehthumbs.db
 Thumbs.db
 client/cypress/videos
 client/build
+
+client/src/index.html
+client/cypress/screenshots
