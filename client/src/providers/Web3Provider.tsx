@@ -4,7 +4,9 @@ import type { Contract } from 'web3-eth-contract';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
+import { StorageKeys } from '../constants/storage';
 import UserContactsContract from '../contracts/UserContacts.json';
+import storage from '../utils/storage.util';
 import { Web3Utils } from '../utils/web3.utils';
 
 interface UserContactsContractInterface extends Contract {
@@ -51,6 +53,12 @@ interface Web3ProviderContext {
   loadWeb3: () => void;
 }
 
+interface ContractNetworks {
+  [index: number]: { address?: string };
+}
+
+const web3LocalStorage = storage();
+
 const web3ProviderInitialState: Web3ProviderState = {
   initialized: false,
   web3: null,
@@ -72,20 +80,34 @@ const Web3ContextProvider: React.FC = ({ children }) => {
       const web3 = await Web3Utils.getWeb3();
       const accounts = await web3.eth.getAccounts();
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = (
-        UserContactsContract.networks as {
-          [index: number]: { address?: string };
-        }
-      )[networkId];
 
-      if (!deployedNetwork?.address) {
+      const getStorageNetworkIfAny = (networkId: number) => {
+        const storageNetworks = web3LocalStorage.get<ContractNetworks>(
+          StorageKeys.WEB3_NETWORKS
+        );
+        if (
+          storageNetworks &&
+          typeof storageNetworks === 'object' &&
+          storageNetworks[networkId]
+        ) {
+          return storageNetworks[networkId];
+        }
+        return null;
+      };
+
+      const deployedNetwork = (
+        UserContactsContract.networks as ContractNetworks
+      )[networkId];
+      const storageNetwork = getStorageNetworkIfAny(networkId);
+
+      if (!deployedNetwork?.address && !storageNetwork?.address) {
         console.error('Contract not deployed!');
         return;
       }
 
       const contract = new web3.eth.Contract(
         UserContactsContract.abi as AbiItem[],
-        deployedNetwork.address
+        storageNetwork?.address ?? deployedNetwork.address
       ) as Contract;
 
       setState((state) => ({
