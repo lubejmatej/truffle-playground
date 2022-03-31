@@ -16,6 +16,12 @@ App is available on:
 
 In order for it to work, you need to have the contract [UserContacts.sol](./contracts/UserContacts.sol) deployed on the network your Web3 wallet is connected to.
 
+To update the contract address on deployed app set the following key(`truffle-playground-v1::WEB3_NETWORKS`):
+
+```javascript
+localStorage["truffle-playground-v1::WEB3_NETWORKS"] = JSON.stringify({"<Insert Network ID here>": {address: "<Insert contract address>"}})
+```
+
 ## Development Environment Setup
 ### Contract development
 
@@ -30,7 +36,7 @@ Ganache setup(make sure it is running on 7545 port, or change Truffle & Client c
 
 Install Truffle with `npm install truffle -g`. To deploy the contract run `truffle deploy --reset`. You can omit `--reset`if this is your first deploy.
 
-Once you have contract running you can connect with deploy client application here [truffle-playground GitHub Pages](https://lubejmatej.github.io/truffle-playground/).
+Once you have contract running you can connect with deploy client application here [truffle-playground GitHub Pages](https://lubejmatej.github.io/truffle-playground/). Check [Releases](./README.md#Releases) section for more information.
 
 ### Client development
 
