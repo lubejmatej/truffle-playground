@@ -7,9 +7,13 @@ const Button = ({
   outline = false,
   ...restProps
 }) => {
-  const outlineClass = outline ? "Button--outline" : "";
+  const classNames = [
+    "Button",
+    `Button--${variant}`,
+    ...outline ? ["Button--outline"] : []
+  ];
   return /* @__PURE__ */ React.createElement("button", {
-    className: `Button Button--${variant} ${outlineClass}`,
+    className: classNames.join(" "),
     type,
     ...restProps
   }, children);
