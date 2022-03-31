@@ -36,7 +36,7 @@ Ganache setup(make sure it is running on 7545 port, or change Truffle & Client c
 
 Install Truffle with `npm install truffle -g`. To deploy the contract run `truffle deploy --reset`. You can omit `--reset`if this is your first deploy.
 
-Once you have contract running you can connect with deploy client application here [truffle-playground GitHub Pages](https://lubejmatej.github.io/truffle-playground/). Check [Releases](./README.md#Releases) section for more information.
+Once you have contract running you can connect with deploy client application here [truffle-playground GitHub Pages](https://lubejmatej.github.io/truffle-playground/). Check [Release](./README.md#Release) section for more information.
 
 ### Client development
 

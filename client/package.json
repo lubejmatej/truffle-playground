@@ -31,6 +31,7 @@
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^10.0.0",
     "@snowpack/plugin-postcss": "^1.4.3",
+    "@snowpack/plugin-react-refresh": "^2.5.0",
     "@testing-library/react": "^12.1.4",
     "@types/jest": "^27.4.1",
     "@types/react": "^17.0.41",
