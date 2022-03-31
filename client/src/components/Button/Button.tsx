@@ -17,13 +17,14 @@ const Button: React.FC<
   outline = false,
   ...restProps
 }) => {
-  const outlineClass = outline ? 'Button--outline' : '';
+  const classNames = [
+    'Button',
+    `Button--${variant}`,
+    ...(outline ? ['Button--outline'] : []),
+  ];
+
   return (
-    <button
-      className={`Button Button--${variant} ${outlineClass}`}
-      type={type}
-      {...restProps}
-    >
+    <button className={classNames.join(' ')} type={type} {...restProps}>
       {children}
     </button>
   );
