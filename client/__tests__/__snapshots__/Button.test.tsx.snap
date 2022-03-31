@@ -2,7 +2,7 @@
 
 exports[`renders button variants 1`] = `
 <button
-  className="Button Button--primary "
+  className="Button Button--primary"
   type="button"
 />
 `;
