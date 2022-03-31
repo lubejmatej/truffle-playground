@@ -14,6 +14,7 @@ export default {
   },
   plugins: [
     [
+      '@snowpack/plugin-react-refresh',
       '@snowpack/plugin-postcss'
     ]
   ],
