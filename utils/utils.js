@@ -14,8 +14,5 @@ class Utils {
   static wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
-  static waitDefault() {
-    return Utils.wait(1e3);
-  }
 }
 export default Utils;

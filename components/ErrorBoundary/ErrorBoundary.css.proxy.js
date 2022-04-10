@@ -1,6 +1,6 @@
 // [snowpack] add styles to the page (skip if no document exists)
 if (typeof document !== 'undefined') {
-  const code = ".ErrorBundary {\n  padding-top: 2rem;\n  color: var(--danger);\n  text-align: center;\n}\n";
+  const code = ".ErrorBoundary {\n  padding-top: 2rem;\n  color: var(--danger);\n  text-align: center;\n}\n";
 
   const styleEl = document.createElement("style");
   const codeEl = document.createTextNode(code);

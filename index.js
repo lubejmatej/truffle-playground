@@ -1,6 +1,6 @@
 import * as React from "./_snowpack/pkg/react.js";
 import * as ReactDOM from "./_snowpack/pkg/react-dom.js";
-import ErrorBoundary from "./components/ErrorBundary/ErrorBundary.js";
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary.js";
 import ModalContextProvider from "./providers/ModalProvider.js";
 import Web3ContextProvider from "./providers/Web3Provider.js";
 import "./styles.css.proxy.js";

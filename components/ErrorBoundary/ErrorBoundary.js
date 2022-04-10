@@ -1,5 +1,5 @@
 import * as React from "../../_snowpack/pkg/react.js";
-import "./ErrorBundary.css.proxy.js";
+import "./ErrorBoundary.css.proxy.js";
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -19,7 +19,7 @@ class ErrorBoundary extends React.Component {
     const {error, hasError} = this.state;
     if (hasError) {
       return /* @__PURE__ */ React.createElement("h2", {
-        className: "ErrorBundary"
+        className: "ErrorBoundary"
       }, 'Something went wrong: "', error?.message ?? error, '"');
     }
     return this.props.children;

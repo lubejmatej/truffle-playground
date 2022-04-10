@@ -12,7 +12,7 @@ const Home = () => {
     if (initialized) {
       loadUserContacts();
     }
-  }, [initialized, loadUserContacts]);
+  }, [initialized]);
   return /* @__PURE__ */ React.createElement("div", {
     className: "Home"
   }, /* @__PURE__ */ React.createElement("h1", null, "Hello Truffle playground"), /* @__PURE__ */ React.createElement(UserContactList, null));

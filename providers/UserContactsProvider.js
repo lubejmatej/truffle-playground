@@ -1,5 +1,4 @@
 import * as React from "../_snowpack/pkg/react.js";
-import Utils from "../utils/utils.js";
 import {Web3Context} from "./Web3Provider.js";
 const userContactsProviderInitialState = {
   isLoading: false,
@@ -13,7 +12,7 @@ const UserContactsContextProvider = ({children}) => {
   const {
     state: {contract, initialized, accounts}
   } = React.useContext(Web3Context);
-  const loadUserContacts = React.useCallback(async () => {
+  const loadUserContacts = React.useCallback(async (updateId = null) => {
     if (!initialized || !contract) {
       return;
     }
@@ -22,13 +21,22 @@ const UserContactsContextProvider = ({children}) => {
       isLoading: true
     }));
     const length = await contract.methods.userContactCount().call();
-    const userContacts = await Promise.all(Array.from({length}).map((_, i) => contract.methods.userContacts(i + 1).call()));
+    const userContacts = await Promise.all(Array.from({length}).map((_, i) => {
+      const currId = BigInt(i + 1);
+      if (updateId !== null && BigInt(updateId) !== currId) {
+        const existingUserContact = state.userContacts.find(({id}) => BigInt(id) === currId);
+        if (existingUserContact) {
+          return Promise.resolve(existingUserContact);
+        }
+      }
+      return contract.methods.userContacts(Number(currId)).call();
+    }));
     setState((state2) => ({
       ...state2,
       userContacts: userContacts.filter(({id}) => id > 0),
       isLoading: false
     }));
-  }, [initialized, contract, setState]);
+  }, [initialized, contract, setState, state.userContacts]);
   const createUserContact = React.useCallback(async (userContact) => {
     if (!initialized || !contract || !accounts?.length) {
       return;
@@ -48,9 +56,18 @@ const UserContactsContextProvider = ({children}) => {
       websiteUrl,
       tags
     } = userContact;
-    await contract.methods.createUserContact(firstName, lastName, telNumber, email, age, avatarUrl, websiteUrl, tags).send({from: firstAccount});
-    await Utils.waitDefault();
-    loadUserContacts();
+    contract.methods.createUserContact(firstName, lastName, telNumber, email, age, avatarUrl, websiteUrl, tags).send({from: firstAccount}).on("receipt", (receipt) => {
+      const {events} = receipt;
+      if (events?.UserContactCreated) {
+        const {returnValues} = events.UserContactCreated;
+        loadUserContacts(returnValues?.id);
+      } else {
+        console.error(receipt);
+        loadUserContacts();
+      }
+    }).on("error", (error) => {
+      throw new Error(error.message);
+    });
   }, [initialized, contract, setState, accounts, loadUserContacts]);
   const updateUserContact = React.useCallback(async (userContact) => {
     if (!initialized || !contract || !accounts?.length) {
@@ -72,9 +89,18 @@ const UserContactsContextProvider = ({children}) => {
       websiteUrl,
       tags
     } = userContact;
-    await contract.methods.updateUserContact(id, firstName, lastName, telNumber, email, age, avatarUrl, websiteUrl, tags).send({from: firstAccount});
-    await Utils.waitDefault();
-    loadUserContacts();
+    contract.methods.updateUserContact(id, firstName, lastName, telNumber, email, age, avatarUrl, websiteUrl, tags).send({from: firstAccount}).on("receipt", (receipt) => {
+      const {events} = receipt;
+      if (events?.UserContactUpdated) {
+        const {returnValues} = events.UserContactUpdated;
+        loadUserContacts(returnValues?.id);
+      } else {
+        console.error(receipt);
+        loadUserContacts();
+      }
+    }).on("error", (error) => {
+      throw new Error(error.message);
+    });
   }, [initialized, contract, setState, accounts, loadUserContacts]);
   const deleteUserContact = React.useCallback(async (id) => {
     if (!initialized || !contract || !accounts?.length) {
@@ -85,9 +111,18 @@ const UserContactsContextProvider = ({children}) => {
       isLoading: true
     }));
     const [firstAccount] = accounts;
-    await contract.methods.deleteUserContact(id).send({from: firstAccount});
-    await Utils.waitDefault();
-    loadUserContacts();
+    await contract.methods.deleteUserContact(id).send({from: firstAccount}).on("receipt", (receipt) => {
+      const {events} = receipt;
+      if (events?.UserContactDeleted) {
+        const {returnValues} = events.UserContactDeleted;
+        loadUserContacts(returnValues?.id);
+      } else {
+        console.error(receipt);
+        loadUserContacts();
+      }
+    }).on("error", (error) => {
+      throw new Error(error.message);
+    });
   }, [initialized, contract, setState, accounts, loadUserContacts]);
   const providerState = React.useMemo(() => ({
     state,
