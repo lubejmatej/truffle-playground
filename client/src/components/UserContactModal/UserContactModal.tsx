@@ -57,7 +57,7 @@ const UserContactModal: React.FC<
     [type]
   );
   const onSubmit = React.useCallback(
-    (formData) => {
+    (formData: UserContact) => {
       onClose?.({
         userContact: formData,
         type,

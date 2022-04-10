@@ -37,7 +37,9 @@ export const UserContactsContext =
     {} as UserContactsProviderContext
   );
 
-const UserContactsContextProvider: React.FC = ({ children }) => {
+const UserContactsContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
+  children,
+}) => {
   const [state, setState] = React.useState<UserContactsProviderState>({
     ...userContactsProviderInitialState,
   });

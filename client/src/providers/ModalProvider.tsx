@@ -34,7 +34,9 @@ export const ModalContext = React.createContext<ModalProviderContext>(
   {} as ModalProviderContext
 );
 
-const ModalContextProvider: React.FC = ({ children }) => {
+const ModalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
+  children,
+}) => {
   const [state, setState] = React.useState<ModalProviderState>({
     ...modalProviderInitialState,
   });
