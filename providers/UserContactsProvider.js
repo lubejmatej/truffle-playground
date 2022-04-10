@@ -5,7 +5,9 @@ const userContactsProviderInitialState = {
   userContacts: []
 };
 export const UserContactsContext = React.createContext({});
-const UserContactsContextProvider = ({children}) => {
+const UserContactsContextProvider = ({
+  children
+}) => {
   const [state, setState] = React.useState({
     ...userContactsProviderInitialState
   });

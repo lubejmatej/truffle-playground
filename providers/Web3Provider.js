@@ -11,7 +11,9 @@ const web3ProviderInitialState = {
   contract: null
 };
 export const Web3Context = React.createContext({});
-const Web3ContextProvider = ({children}) => {
+const Web3ContextProvider = ({
+  children
+}) => {
   const [state, setState] = React.useState({
     ...web3ProviderInitialState
   });

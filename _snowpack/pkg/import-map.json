@@ -1,7 +1,7 @@
 {
   "imports": {
     "react": "./react.js",
-    "react-dom": "./react-dom.js",
+    "react-dom/client": "./react-dom/client.js",
     "web3/dist/web3.min": "./web3/dist/web3.min.js"
   }
 }

@@ -1,7 +1,9 @@
 import * as React from "../_snowpack/pkg/react.js";
 const modalProviderInitialState = {};
 export const ModalContext = React.createContext({});
-const ModalContextProvider = ({children}) => {
+const ModalContextProvider = ({
+  children
+}) => {
   const [state, setState] = React.useState({
     ...modalProviderInitialState
   });
