@@ -70,7 +70,9 @@ export const Web3Context = React.createContext<Web3ProviderContext>(
   {} as Web3ProviderContext
 );
 
-const Web3ContextProvider: React.FC = ({ children }) => {
+const Web3ContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
+  children,
+}) => {
   const [state, setState] = React.useState<Web3ProviderState>({
     ...web3ProviderInitialState,
   });

@@ -6,7 +6,10 @@ interface ModalProps {
   maxWidth?: string | number;
 }
 
-const Modal: React.FC<ModalProps> = ({ children, maxWidth }) => {
+const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
+  children,
+  maxWidth,
+}) => {
   return (
     <>
       <div className="Modal--backdrop" />

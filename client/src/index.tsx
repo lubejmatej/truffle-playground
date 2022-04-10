@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import ModalContextProvider from './providers/ModalProvider';
@@ -11,7 +11,7 @@ const App = React.lazy(() => import('./App'));
 
 const SuspenseComponent: React.FC = () => <>...</>;
 
-ReactDOM.render(
+createRoot(document.getElementById('app')!).render(
   <ErrorBoundary>
     <ModalContextProvider>
       <Web3ContextProvider>
@@ -20,6 +20,5 @@ ReactDOM.render(
         </React.Suspense>
       </Web3ContextProvider>
     </ModalContextProvider>
-  </ErrorBoundary>,
-  document.getElementById('app')
+  </ErrorBoundary>
 );
