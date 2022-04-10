@@ -16,7 +16,8 @@ const Home: React.FC = () => {
     if (initialized) {
       loadUserContacts();
     }
-  }, [initialized, loadUserContacts]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialized]);
 
   return (
     <div className="Home">

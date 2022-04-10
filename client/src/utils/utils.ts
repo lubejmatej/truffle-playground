@@ -17,11 +17,6 @@ abstract class Utils {
   static wait(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
-
-  // Simulate block time, not accurate, will fail on prod chain, but for testing with automining should be good enough
-  static waitDefault(): Promise<void> {
-    return Utils.wait(1000);
-  }
 }
 
 export default Utils;
