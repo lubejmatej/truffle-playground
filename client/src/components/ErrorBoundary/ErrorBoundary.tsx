@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import './ErrorBundary.css';
+import './ErrorBoundary.css';
 
 class ErrorBoundary extends React.Component<
   {},
@@ -27,7 +27,7 @@ class ErrorBoundary extends React.Component<
     const { error, hasError } = this.state;
     if (hasError) {
       return (
-        <h2 className="ErrorBundary">
+        <h2 className="ErrorBoundary">
           Something went wrong: "{error?.message ?? error}"
         </h2>
       );

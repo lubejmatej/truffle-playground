@@ -1,4 +1,4 @@
-.ErrorBundary {
+.ErrorBoundary {
   padding-top: 2rem;
   color: var(--danger);
   text-align: center;

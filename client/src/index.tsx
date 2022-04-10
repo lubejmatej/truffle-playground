@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import ErrorBoundary from './components/ErrorBundary/ErrorBundary';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import ModalContextProvider from './providers/ModalProvider';
 import Web3ContextProvider from './providers/Web3Provider';
 

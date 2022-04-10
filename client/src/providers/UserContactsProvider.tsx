@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import Utils from '../utils/utils';
 import { Web3Context } from './Web3Provider';
 
 export interface UserContact {
@@ -22,7 +21,7 @@ interface UserContactsProviderState {
 
 interface UserContactsProviderContext {
   readonly state: UserContactsProviderState;
-  loadUserContacts: () => void;
+  loadUserContacts: (index?: number | null) => void;
   createUserContact: (userContact: Omit<UserContact, 'id'>) => void;
   updateUserContact: (userContact: UserContact) => void;
   deleteUserContact: (id: number) => void;
@@ -48,29 +47,43 @@ const UserContactsContextProvider: React.FC = ({ children }) => {
   } = React.useContext(Web3Context);
 
   const loadUserContacts: UserContactsProviderContext['loadUserContacts'] =
-    React.useCallback(async () => {
-      if (!initialized || !contract) {
-        return;
-      }
+    React.useCallback(
+      async (updateId: string | number | null = null) => {
+        if (!initialized || !contract) {
+          return;
+        }
 
-      setState((state) => ({
-        ...state,
-        isLoading: true,
-      }));
+        setState((state) => ({
+          ...state,
+          isLoading: true,
+        }));
 
-      const length: number = await contract.methods.userContactCount().call();
-      const userContacts = await Promise.all(
-        Array.from({ length }).map((_, i) =>
-          contract.methods.userContacts(i + 1).call()
-        )
-      );
+        const length: number = await contract.methods.userContactCount().call();
+        const userContacts = await Promise.all(
+          Array.from({ length }).map((_, i) => {
+            const currId = BigInt(i + 1);
 
-      setState((state) => ({
-        ...state,
-        userContacts: userContacts.filter(({ id }) => id > 0),
-        isLoading: false,
-      }));
-    }, [initialized, contract, setState]);
+            if (updateId !== null && BigInt(updateId) !== currId) {
+              const existingUserContact = state.userContacts.find(
+                ({ id }) => BigInt(id) === currId
+              );
+              if (existingUserContact) {
+                return Promise.resolve(existingUserContact);
+              }
+            }
+
+            return contract.methods.userContacts(Number(currId)).call();
+          })
+        );
+
+        setState((state) => ({
+          ...state,
+          userContacts: userContacts.filter(({ id }) => id > 0),
+          isLoading: false,
+        }));
+      },
+      [initialized, contract, setState, state.userContacts]
+    );
 
   const createUserContact: UserContactsProviderContext['createUserContact'] =
     React.useCallback(
@@ -96,7 +109,7 @@ const UserContactsContextProvider: React.FC = ({ children }) => {
           tags,
         } = userContact;
 
-        await contract.methods
+        contract.methods
           .createUserContact(
             firstName,
             lastName,
@@ -107,11 +120,23 @@ const UserContactsContextProvider: React.FC = ({ children }) => {
             websiteUrl,
             tags
           )
-          .send({ from: firstAccount });
+          .send({ from: firstAccount })
+          .on('receipt', (receipt) => {
+            const { events } = receipt;
 
-        await Utils.waitDefault();
-
-        loadUserContacts();
+            if (events?.UserContactCreated) {
+              const { returnValues } = events.UserContactCreated;
+              loadUserContacts(returnValues?.id);
+            } else {
+              // Something went wrong, event not emitted
+              console.error(receipt);
+              loadUserContacts();
+            }
+          })
+          .on('error', (error) => {
+            // Rethrow so ErrorBoundary catches it
+            throw new Error(error.message);
+          });
       },
       [initialized, contract, setState, accounts, loadUserContacts]
     );
@@ -141,7 +166,7 @@ const UserContactsContextProvider: React.FC = ({ children }) => {
           tags,
         } = userContact;
 
-        await contract.methods
+        contract.methods
           .updateUserContact(
             id,
             firstName,
@@ -153,11 +178,23 @@ const UserContactsContextProvider: React.FC = ({ children }) => {
             websiteUrl,
             tags
           )
-          .send({ from: firstAccount });
+          .send({ from: firstAccount })
+          .on('receipt', (receipt) => {
+            const { events } = receipt;
 
-        await Utils.waitDefault();
-
-        loadUserContacts();
+            if (events?.UserContactUpdated) {
+              const { returnValues } = events.UserContactUpdated;
+              loadUserContacts(returnValues?.id);
+            } else {
+              // Something went wrong, event not emitted
+              console.error(receipt);
+              loadUserContacts();
+            }
+          })
+          .on('error', (error) => {
+            // Rethrow so ErrorBoundary catches it
+            throw new Error(error.message);
+          });
       },
       [initialized, contract, setState, accounts, loadUserContacts]
     );
@@ -178,11 +215,23 @@ const UserContactsContextProvider: React.FC = ({ children }) => {
 
         await contract.methods
           .deleteUserContact(id)
-          .send({ from: firstAccount });
+          .send({ from: firstAccount })
+          .on('receipt', (receipt) => {
+            const { events } = receipt;
 
-        await Utils.waitDefault();
-
-        loadUserContacts();
+            if (events?.UserContactDeleted) {
+              const { returnValues } = events.UserContactDeleted;
+              loadUserContacts(returnValues?.id);
+            } else {
+              // Something went wrong, event not emitted
+              console.error(receipt);
+              loadUserContacts();
+            }
+          })
+          .on('error', (error) => {
+            // Rethrow so ErrorBoundary catches it
+            throw new Error(error.message);
+          });
       },
       [initialized, contract, setState, accounts, loadUserContacts]
     );
