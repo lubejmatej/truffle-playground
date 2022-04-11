@@ -34,18 +34,20 @@ contract UserContacts {
     }
 
     function updateUserContact(uint _id, string memory _firstName, string memory _lastName, string memory _telNumber, string memory _email, uint _age, string memory _avatarUrl, string memory _websiteUrl, string memory _tags) public {
-        UserContact memory _userContact = userContacts[_id];
-        _userContact.firstName = _firstName;
-        _userContact.lastName = _lastName;
-        _userContact.telNumber = _telNumber;
-        _userContact.email = _email;
-        _userContact.age = _age;
-        _userContact.avatarUrl = _avatarUrl;
-        _userContact.websiteUrl = _websiteUrl;
-        _userContact.tags = _tags;
-        userContacts[_id] = _userContact;
+        if (_id > 0 && _id <= userContactCount) {
+            UserContact memory _userContact = userContacts[_id];
+            _userContact.firstName = _firstName;
+            _userContact.lastName = _lastName;
+            _userContact.telNumber = _telNumber;
+            _userContact.email = _email;
+            _userContact.age = _age;
+            _userContact.avatarUrl = _avatarUrl;
+            _userContact.websiteUrl = _websiteUrl;
+            _userContact.tags = _tags;
+            userContacts[_id] = _userContact;
 
-        emit UserContactUpdated(_id);
+            emit UserContactUpdated(_id);
+        }
     }
 
 
